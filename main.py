@@ -63,8 +63,9 @@ from art import logo
 import random
 print(logo)
 
-def random_card(list):
-    return list[random.randint(0,len(list)-1)]
+card_list = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+def random_card():
+    return random.choice(card_list)
 
 def isBlackJack(card1,card2):
   if card1+card2 == 21:
@@ -76,14 +77,22 @@ def addCards(cards):
   total=0
   for card in cards:
     total += card
+  if 11 in cards and total>21:
+    total=0
+    for card in cards:
+      if card == 11:
+        card=1
+      total += card
   return total
     
+def new_card(cards):
+  cards.append(random_card())
 
-card_list = cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
-your_cards = [random_card(card_list),random_card(card_list)]
-pc_cards = [random_card(card_list),random_card(card_list)]
-  
+
+your_cards = [random_card(),random_card()]
+pc_cards = [random_card(),random_card()]
+
 print(f"Your cards : {your_cards}")
 print(f"Computer first card : {pc_cards[0]}")
 
@@ -91,4 +100,50 @@ if isBlackJack(pc_cards[0],pc_cards[1]) :
   print("BLACKJACK COUMPUTER WIN")
 elif isBlackJack(your_cards[0],your_cards[1]) :
   print("BLACKJACK YOU WIN !!")
+  
+total_your_cards = addCards(your_cards)
+total_pc_cards = addCards(pc_cards)
+while True:
+  choice=input("Type 'y' to get another card, type 'n' to pass: ")
+  
+  if choice == "n":
+    while total_pc_cards < 16 :
+      new_card(pc_cards)
+      total_pc_cards = addCards(pc_cards)
+      
+    if total_pc_cards > 16:
+      if total_your_cards < total_pc_cards :
+        print(f"Your final hand: {your_cards}, final score: {total_your_cards}")
+        print(f"Computer's final hand: {pc_cards[0]}, final score:{total_pc_cards}")
+        print("Computer win !")
+      elif total_your_cards > total_pc_cards :
+        print(f"Your final hand: {your_cards}, final score: {total_your_cards}")
+        print(f"Computer's final hand: {pc_cards[0]}, final score:{total_pc_cards}")
+        print("You win !")
+      elif total_your_cards == total_pc_cards :
+        print(f"Your final hand: {your_cards}, final score: {total_your_cards}")
+        print(f"Computer's final hand: {pc_cards[0]}, final score:{total_pc_cards}")
+        print("Draw !")
+      else:
+        print("error")
+    break
+  elif choice == "y":
+    new_card(your_cards)
+    total_your_cards = addCards(your_cards)
+    if total_your_cards > 21 :
+      print(f"Your final hand: {your_cards}, final score: {total_your_cards}")
+      print(f"Computer's final hand: {pc_cards[0]}, final score:{total_pc_cards}")
+      print("Computer win !")
+      break
+    elif total_your_cards == 21 :
+      print(f"Your final hand: {your_cards}, final score: {total_your_cards}")
+      print(f"Computer's final hand: {pc_cards[0]}, final score:{total_pc_cards}")
+      print("--B L A C K  J A C K-- You win !")
+    else:
+      print(f"Your cards: {your_cards}, current score: {total_your_cards}")
+      print(f"Computer's first card: {pc_cards[0]}")
+      continue
+   
+    
+  
 
