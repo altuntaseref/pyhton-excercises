@@ -59,3 +59,36 @@
 
 #Hint 14: Ask the user if they want to restart the game. If they answer yes, clear the console and start a new game of blackjack and show the logo from art.py.
 
+from art import logo
+import random
+print(logo)
+
+def random_card(list):
+    return list[random.randint(0,len(list)-1)]
+
+def isBlackJack(card1,card2):
+  if card1+card2 == 21:
+    return True
+  else:
+    return False
+
+def addCards(cards):
+  total=0
+  for card in cards:
+    total += card
+  return total
+    
+
+card_list = cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+
+your_cards = [random_card(card_list),random_card(card_list)]
+pc_cards = [random_card(card_list),random_card(card_list)]
+  
+print(f"Your cards : {your_cards}")
+print(f"Computer first card : {pc_cards[0]}")
+
+if isBlackJack(pc_cards[0],pc_cards[1]) :
+  print("BLACKJACK COUMPUTER WIN")
+elif isBlackJack(your_cards[0],your_cards[1]) :
+  print("BLACKJACK YOU WIN !!")
+
